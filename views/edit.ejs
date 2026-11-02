@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>광현 카페 - 메뉴 수정</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>광현 카페</h1>
+            <p>메뉴 수정 페이지입니다.</p>
+        </header>
+
+        <section class="menu-section">
+            <h2>메뉴 수정</h2>
+
+            <form action="/menu/edit/<%= menu.id %>" method="POST">
+
+                <select name="category" required>
+                    <option value="커피" <%= menu.category === '커피' ? 'selected' : '' %>>커피</option>
+                    <option value="논커피" <%= menu.category === '논커피' ? 'selected' : '' %>>논커피</option>
+                    <option value="티" <%= menu.category === '티' ? 'selected' : '' %>>티</option>
+                    <option value="에이드" <%= menu.category === '에이드' ? 'selected' : '' %>>에이드</option>
+                    <option value="스무디" <%= menu.category === '스무디' ? 'selected' : '' %>>스무디</option>
+                    <option value="차" <%= menu.category === '차' ? 'selected' : '' %>>차</option>
+                    <option value="디저트" <%= menu.category === '디저트' ? 'selected' : '' %>>디저트</option>
+                </select>
+
+                <input type="text" name="menu" value="<%= menu.menu %>" required>
+
+                <input type="number" name="price" value="<%= menu.price %>" min="0" required>
+
+                <button type="submit">수정 완료</button>
+
+            </form>
+
+            <a href="/">메뉴 목록으로 돌아가기</a>
+        </section>
+    </div>
+
+</body>
+</html>

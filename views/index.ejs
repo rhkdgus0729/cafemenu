@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>광현 카페</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>광현 카페</h1>
+            <p>광현 카페 웹사이트입니다.</p>
+        </header>
+
+        <section class="menu-section">
+
+            <h2>메뉴 추가</h2>
+
+            <form action="/menu/add" method="POST" class="add-form">
+
+                <select name="category" required>
+                    <option value="">카테고리 선택</option>
+                    <option value="커피">커피</option>
+                    <option value="논커피">논커피</option>
+                    <option value="티">티</option>
+                    <option value="에이드">에이드</option>
+                    <option value="스무디">스무디</option>
+                    <option value="차">차</option>
+                    <option value="디저트">디저트</option>
+                </select>
+
+                <input type="text" name="menu"
+                       placeholder="메뉴 이름" required>
+
+                <input type="number" name="price"
+                       placeholder="가격" min="0" required>
+
+                <button type="submit" class="btn btn-add">
+                    메뉴 추가
+                </button>
+
+            </form>
+
+            <h2>메뉴 검색</h2>
+
+            <form action="/" method="GET" class="search-form">
+
+                <input
+                    type="text"
+                    name="q"
+                    placeholder="검색할 메뉴 이름 입력"
+                    value="<%= search %>"
+                >
+
+                <select name="category">
+                    <option value="전체"
+                        <%= selectedCategory === '전체' ? 'selected' : '' %>>
+                        전체 카테고리
+                    </option>
+
+                    <option value="커피"
+                        <%= selectedCategory === '커피' ? 'selected' : '' %>>
+                        커피
+                    </option>
+
+                    <option value="논커피"
+                        <%= selectedCategory === '논커피' ? 'selected' : '' %>>
+                        논커피
+                    </option>
+
+                    <option value="티"
+                        <%= selectedCategory === '티' ? 'selected' : '' %>>
+                        티
+                    </option>
+
+                    <option value="에이드"
+                        <%= selectedCategory === '에이드' ? 'selected' : '' %>>
+                        에이드
+                    </option>
+
+                    <option value="스무디"
+                        <%= selectedCategory === '스무디' ? 'selected' : '' %>>
+                        스무디
+                    </option>
+
+                    <option value="차"
+                        <%= selectedCategory === '차' ? 'selected' : '' %>>
+                        차
+                    </option>
+
+                    <option value="디저트"
+                        <%= selectedCategory === '디저트' ? 'selected' : '' %>>
+                        디저트
+                    </option>
+                </select>
+
+                <button type="submit" class="btn btn-add">
+                    검색
+                </button>
+
+                <a href="/" class="btn btn-delete">
+                    초기화
+                </a>
+
+            </form>
+
+            <h2>메뉴 목록</h2>
+
+            <%
+                const categories = [
+                    '커피',
+                    '논커피',
+                    '티',
+                    '에이드',
+                    '스무디',
+                    '차',
+                    '디저트'
+                ];
+            %>
+
+            <% if (menus.length === 0) { %>
+
+                <p class="no-result">검색 결과가 없습니다.</p>
+
+            <% } else { %>
+
+                <% categories.forEach(category => { %>
+
+                    <% const categoryMenus = menus.filter(
+                        menu => menu.category === category
+                    ); %>
+
+                    <% if (categoryMenus.length > 0) { %>
+
+                        <div class="category-section">
+
+                            <h3><%= category %></h3>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>메뉴 이름</th>
+                                        <th>가격</th>
+                                        <th>관리</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <% categoryMenus.forEach(menu => { %>
+
+                                        <tr>
+                                            <td><%= menu.id %></td>
+
+                                            <td><%= menu.menu %></td>
+
+                                            <td>
+                                                <%= menu.price.toLocaleString() %>원
+                                            </td>
+
+                                            <td>
+                                                <div class="action-buttons">
+
+                                                    <a href="/menu/edit/<%= menu.id %>"
+                                                       class="btn btn-edit">
+                                                        수정
+                                                    </a>
+
+                                                    <form
+                                                        action="/menu/delete/<%= menu.id %>"
+                                                        method="POST"
+                                                        onsubmit="return confirm('정말 삭제하시겠습니까?');">
+
+                                                        <button type="submit"
+                                                                class="btn btn-delete">
+                                                            삭제
+                                                        </button>
+
+                                                    </form>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    <% }); %>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    <% } %>
+
+                <% }); %>
+
+            <% } %>
+
+        </section>
+
+    </div>
+
+</body>
+</html>
+
